@@ -24,8 +24,37 @@ public class CodingExamB {
 		 *    into one large String. The string will also state the file name and
 		 *    the line number for where each TODO was found. 
 		*/
+		String todos = "";
+		todos += fileName + "\n";
+		int lineNumber = 0;
+		try {
+			FileReader fr = new FileReader(fileName);
+			BufferedReader br = new BufferedReader(fr);
+			String line = br.readLine();
+			while(line != null) {
+				lineNumber++;
+				//System.out.println("running");
+				//System.out.println(line);
+				if(line.length() > 7) {
+					for(int i = 0; i < line.length() - 7; i++) {
+						if(line.substring(i, i+7).equals("//TODO:")) {
+							todos += lineNumber + ": " + line.substring(i,line.length()) + "\n";
+						}
+					}
+				}
+				line = br.readLine();
+			}
+			todos += "\n";
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println("No file found");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		return "";
+		return todos;
 	}
 	
 	public static void main(String[] args) {
@@ -37,6 +66,15 @@ public class CodingExamB {
 		/*
 		 * 2. Write the finalLogString to a file called TODO_Log.txt. The file should match TODO_Log_example.txt. 
 		 */
+		System.out.println(finalLogString);
+		try {
+			FileWriter fw = new FileWriter("src/Coding_Exam_B/classes/TODO_Log.txt", true);
+			fw.write(finalLogString);
+			fw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 }
